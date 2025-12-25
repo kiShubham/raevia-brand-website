@@ -2,7 +2,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 import salonInterior1 from "@/assets/salon-interior-1.jpg";
 import salonInterior2 from "@/assets/salon-interior-2.jpg";
-import heroSalon from "@/assets/hero-salon.jpg";
+import salonExterior from "@/assets/salon-exterior.jpg";
 
 interface GalleryItem {
   id: number;
@@ -38,8 +38,8 @@ const galleryItems: GalleryItem[] = [
     id: 4, 
     aspect: "aspect-[16/10]", 
     colSpan: "md:col-span-2", 
-    image: heroSalon,
-    alt: "Main salon floor with velvet seating"
+    image: salonExterior,
+    alt: "Raevia Studio storefront"
   },
   { 
     id: 5, 
