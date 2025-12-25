@@ -2,95 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* RAEVIA - Luxury Salon Design System
+   Colors: Deep charcoal, ivory, muted gold
+   Typography: Playfair Display (headings), clean sans-serif (body)
+   Style: Minimalist, calm luxury, contemporary
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Luxury Dark Theme - Primary palette */
+    --background: 0 0% 6%;
+    --foreground: 40 15% 92%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 9%;
+    --card-foreground: 40 15% 92%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 40 15% 92%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Deep charcoal primary */
+    --primary: 40 15% 92%;
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Stone grey secondary */
+    --secondary: 30 5% 15%;
+    --secondary-foreground: 40 15% 85%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones */
+    --muted: 30 3% 18%;
+    --muted-foreground: 30 8% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted gold accent */
+    --accent: 38 35% 55%;
+    --accent-foreground: 0 0% 6%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Subtle champagne highlight */
+    --highlight: 38 30% 70%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 40 15% 92%;
 
-    --radius: 0.5rem;
+    --border: 30 5% 18%;
+    --input: 30 5% 15%;
+    --ring: 38 35% 55%;
 
-    --sidebar-background: 0 0% 98%;
+    --radius: 0.25rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Custom luxury tokens */
+    --gold: 38 35% 55%;
+    --gold-light: 38 30% 70%;
+    --ivory: 40 20% 95%;
+    --charcoal: 0 0% 12%;
+    --charcoal-deep: 0 0% 6%;
+    --stone: 30 5% 25%;
+    --blush: 15 20% 85%;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar tokens */
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 40 15% 92%;
+    --sidebar-primary: 38 35% 55%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 30 5% 15%;
+    --sidebar-accent-foreground: 40 15% 92%;
+    --sidebar-border: 30 5% 18%;
+    --sidebar-ring: 38 35% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 0 0% 6%;
+    --foreground: 40 15% 92%;
+    --card: 0 0% 9%;
+    --card-foreground: 40 15% 92%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 40 15% 92%;
+    --primary: 40 15% 92%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 30 5% 15%;
+    --secondary-foreground: 40 15% 85%;
+    --muted: 30 3% 18%;
+    --muted-foreground: 30 8% 55%;
+    --accent: 38 35% 55%;
+    --accent-foreground: 0 0% 6%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 40 15% 92%;
+    --border: 30 5% 18%;
+    --input: 30 5% 15%;
+    --ring: 38 35% 55%;
   }
 }
 
@@ -100,6 +97,196 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
+
+  /* Elegant heading typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+    text-wrap: balance;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom selection */
+  ::selection {
+    background: hsl(var(--accent) / 0.3);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /* Luxury gradient backgrounds */
+  .bg-luxury-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--background)) 0%,
+      hsl(0 0% 8%) 50%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  .bg-luxury-radial {
+    background: radial-gradient(
+      ellipse at 50% 0%,
+      hsl(var(--accent) / 0.08) 0%,
+      transparent 60%
+    );
+  }
+
+  /* Gold text accent */
+  .text-gold {
+    color: hsl(var(--accent));
+  }
+
+  .text-gold-light {
+    color: hsl(var(--highlight));
+  }
+
+  /* Elegant divider */
+  .divider-gold {
+    @apply h-px w-16 mx-auto;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--accent)),
+      transparent
+    );
+  }
+
+  /* Premium card style */
+  .card-luxury {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50;
+    box-shadow: 0 4px 24px -8px hsl(0 0% 0% / 0.5);
+  }
+
+  /* Subtle glow effect */
+  .glow-gold {
+    box-shadow: 0 0 40px -10px hsl(var(--accent) / 0.3);
+  }
+}
+
+@layer utilities {
+  /* Letter spacing utilities */
+  .tracking-luxury {
+    letter-spacing: 0.2em;
+  }
+
+  .tracking-wide-luxury {
+    letter-spacing: 0.35em;
+  }
+
+  /* Smooth transitions */
+  .transition-luxury {
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Fade up animation for scroll reveals */
+  .animate-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-fade-up-delay-1 {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-up-delay-2 {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-up-delay-3 {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-up-delay-4 {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+    opacity: 0;
+  }
+
+  /* Gentle float animation */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Slow reveal for images */
+  .animate-reveal {
+    animation: reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Line draw animation */
+  .animate-line-draw {
+    animation: lineDraw 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes lineDraw {
+  from {
+    width: 0;
+  }
+  to {
+    width: 4rem;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* Smooth scroll reveal trigger */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
