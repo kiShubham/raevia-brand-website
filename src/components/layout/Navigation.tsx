@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,8 +22,28 @@ const Navigation = () => {
     { label: "Services", href: "#services" },
     { label: "Experience", href: "#experience" },
     { label: "About", href: "#about" },
+    { label: "Membership", href: "/membership" },
     { label: "Contact", href: "#contact" },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      if (location.pathname !== "/") {
+        navigate("/");
+        // Wait for navigation to complete before scrolling
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          element?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      } else {
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }
+      setIsMobileMenuOpen(false);
+    }
+    // If it's a regular route (like /membership), let default behavior happen
+  };
 
   return (
     <header
@@ -34,8 +57,8 @@ const Navigation = () => {
       <nav className="max-w-7xl mx-auto px-6 py-4 md:py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a 
-            href="/" 
+          <a
+            href="/"
             className="text-xl md:text-2xl font-serif font-light tracking-[0.2em] hover:text-accent transition-colors duration-300"
           >
             RAEVIA
@@ -47,6 +70,7 @@ const Navigation = () => {
               <a
                 key={link.label}
                 href={link.href}
+                onClick={(e) => handleLinkClick(e, link.href)}
                 className="text-xs tracking-[0.35em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300"
               >
                 {link.label}
@@ -67,23 +91,23 @@ const Navigation = () => {
             className="md:hidden flex flex-col gap-1.5 w-8 h-8 items-center justify-center"
             aria-label="Toggle menu"
           >
-            <span 
+            <span
               className={cn(
                 "w-6 h-px bg-foreground transition-all duration-300",
                 isMobileMenuOpen && "rotate-45 translate-y-2"
-              )} 
+              )}
             />
-            <span 
+            <span
               className={cn(
                 "w-6 h-px bg-foreground transition-all duration-300",
                 isMobileMenuOpen && "opacity-0"
-              )} 
+              )}
             />
-            <span 
+            <span
               className={cn(
                 "w-6 h-px bg-foreground transition-all duration-300",
                 isMobileMenuOpen && "-rotate-45 -translate-y-2"
-              )} 
+              )}
             />
           </button>
         </div>
@@ -100,7 +124,7 @@ const Navigation = () => {
               <a
                 key={link.label}
                 href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => handleLinkClick(e, link.href)}
                 className={cn(
                   "text-sm tracking-[0.35em] uppercase text-muted-foreground hover:text-foreground transition-all duration-300",
                   isMobileMenuOpen && "animate-fade-up"
