@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -19,7 +19,7 @@ const Navigation = () => {
   }, []);
 
   const navLinks = [
-    { label: "Services", href: "#services" },
+    { label: "Services", href: "/services" },
     { label: "Experience", href: "#experience" },
     { label: "About", href: "#about" },
     { label: "Membership", href: "/membership" },
@@ -41,9 +41,13 @@ const Navigation = () => {
         element?.scrollIntoView({ behavior: "smooth" });
       }
       setIsMobileMenuOpen(false);
+    } else if (href.startsWith("/")) {
+      e.preventDefault();
+      navigate(href);
+      setIsMobileMenuOpen(false);
+      window.scrollTo(0, 0);
     }
-    // If it's a regular route (like /membership), let default behavior happen
-  };
+  }
 
   return (
     <header
