@@ -1,274 +1,262 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/sections/Footer";
 import servicesBg from "@/assets/services-bg.png";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import salonInterior1 from "@/assets/salon-interior-1.jpg";
-import salonInterior2 from "@/assets/salon-interior-2.jpg";
-import salonExterior from "@/assets/salon-exterior.jpg";
-import bride1 from "@/assets/Bride1.JPG";
-import bride2 from "@/assets/Bride2.JPG";
-import maleHairstyle from "@/assets/Male Hairstyle.JPG";
 
 // Service Data Interface
 interface ServiceItem {
   name: string;
+  price1?: string; // e.g., 1 Hand, Mani, Rica, Price
+  price2?: string; // e.g., Both Hand, Pedi, Flavoured
 }
 
 interface ServiceCategory {
-  id: string;
   title: string;
-  image: string;
+  subtitle?: string; // For "HAND", "FEET", etc.
+  headers: string[]; // ["Service", "1 Hand", "Both Hand"]
   items: ServiceItem[];
 }
 
-// Category Card Component
-const CategoryCard = ({
-  category,
-  isSelected,
-  onClick,
-}: {
-  category: ServiceCategory;
-  isSelected: boolean;
-  onClick: () => void;
-}) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "relative group overflow-hidden rounded-lg transition-all duration-300 aspect-square",
-      "hover:shadow-2xl hover:scale-105 cursor-pointer",
-      isSelected ? "ring-2 ring-accent scale-105" : "ring-1 ring-border/30"
-    )}
-  >
-    <img
-      src={category.image}
-      alt={category.title}
-      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-    />
-    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent flex items-end p-4">
-      <div className="w-full">
-        <h3 className="text-lg md:text-xl font-serif text-foreground font-bold">
-          {category.title}
-        </h3>
-      </div>
-    </div>
-  </button>
-);
+const ServiceTable = ({ category }: { category: ServiceCategory }) => {
+  return (
+    <div className="mb-12 animate-fade-up">
+      <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-6 pl-4 border-l-2 border-accent">
+        {category.title}
+      </h3>
 
-// Service List Component
-const ServiceList = ({ category }: { category: ServiceCategory }) => (
-  <div className="animate-fade-up">
-    <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-6 pl-4 border-l-2 border-accent">
-      {category.title}
-    </h3>
+      {category.subtitle && (
+        <h4 className="text-xl font-medium text-accent mb-4 pl-4 uppercase tracking-wider">
+          {category.subtitle}
+        </h4>
+      )}
 
-    <div className="bg-card/30 backdrop-blur-md rounded-lg overflow-hidden border border-border/50 shadow-xl">
-      <div className="divide-y divide-border/30">
-        {category.items.map((item, idx) => (
-          <div
-            key={idx}
-            className={cn(
-              "p-4 md:p-6 hover:bg-white/5 transition-colors duration-300",
-              idx % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
-            )}
-          >
-            <div className="font-medium text-foreground/90">{item.name}</div>
+      <div className="bg-card/30 backdrop-blur-md rounded-lg overflow-hidden border border-border/50 shadow-xl">
+        {/* Header */}
+        <div className="grid grid-cols-12 gap-4 p-4 md:p-6 bg-secondary/40 text-accent font-serif tracking-widest uppercase text-sm md:text-base border-b border-border/50">
+          <div className="col-span-6 md:col-span-6">{category.headers[0]}</div>
+          <div className="col-span-3 md:col-span-3 text-right">
+            {category.headers[1]}
           </div>
-        ))}
+          {category.headers[2] && (
+            <div className="col-span-3 md:col-span-3 text-right">
+              {category.headers[2]}
+            </div>
+          )}
+        </div>
+
+        {/* Rows */}
+        <div className="divide-y divide-border/30">
+          {category.items.map((item, idx) => (
+            <div
+              key={idx}
+              className={cn(
+                "grid grid-cols-12 gap-4 p-4 md:p-6 hover:bg-white/5 transition-colors duration-300 items-center",
+                idx % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
+              )}
+            >
+              <div className="col-span-6 md:col-span-6 font-medium text-foreground/90">
+                {item.name}
+              </div>
+              <div className="col-span-3 md:col-span-3 text-right font-light text-foreground/80 tracking-wide">
+                {item.price1 || "---"}
+              </div>
+              {category.headers[2] && (
+                <div className="col-span-3 md:col-span-3 text-right font-light text-foreground/80 tracking-wide">
+                  {item.price2 || "---"}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Services = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("nails");
+  const [searchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") === "him" ? "him" : "her";
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Service Categories with Images
-  const categories: ServiceCategory[] = [
-    {
-      id: "nails",
-      title: "Nails",
-      image: salonInterior1,
-      items: [
-        { name: "Gel Polish" },
-        { name: "Gel Overlay With Gel" },
-        { name: "Gel Overlay With Acrylic" },
-        { name: "Acrylic Extension" },
-        { name: "Gel Extension" },
-        { name: "Temporary Extension" },
-        { name: "Gel Polish Feet" },
-        { name: "Temporary Extension Feet" },
-        { name: "Acrylic Extension Feet" },
-        { name: "Gel Extension Feet" },
-        { name: "Gel Polish Remove" },
-        { name: "Extension Remove" },
-        { name: "Manicure & Pedicure - Basic Dry" },
-        { name: "Manicure & Pedicure - Classic" },
-        { name: "Manicure & Pedicure - Aroma" },
-        { name: "Manicure & Pedicure - Chocolate" },
-        { name: "Manicure & Pedicure - Ultra Bright" },
-        { name: "Manicure & Pedicure - Tan Clear" },
-        { name: "Manicure & Pedicure - Signature" },
-        { name: "Manicure & Pedicure - Ragaa" },
-        { name: "Manicure & Pedicure - RAEVIA Special" },
-        { name: "Heel Peel Treatment" },
-      ],
-    },
-    {
-      id: "waxing-threading",
-      title: "Waxing & Threading",
-      image: salonExterior,
-      items: [
-        { name: "Waxing - Full Arms" },
-        { name: "Waxing - Half Legs" },
-        { name: "Waxing - Full Legs" },
-        { name: "Waxing - Half Back" },
-        { name: "Waxing - Half Front" },
-        { name: "Waxing - Full Back" },
-        { name: "Waxing - Full Front" },
-        { name: "Waxing - Stomach" },
-        { name: "Waxing - Bikini" },
-        { name: "Waxing - Full Body" },
-        { name: "Waxing - Underarms" },
-        { name: "Threading - Eyebrows" },
-        { name: "Threading - Upper / Lower Lip" },
-        { name: "Threading - Forehead" },
-        { name: "Threading - Chin" },
-        { name: "Threading - Side Locks" },
-        { name: "Threading - Jaw Line" },
-        { name: "Threading - Neck" },
-        { name: "Threading - Face" },
-      ],
-    },
-    {
-      id: "women-hair",
-      title: "Women Hair",
-      image: bride2,
-      items: [
-        { name: "Smoothening Treatment - Bob" },
-        { name: "Smoothening Treatment - Shoulder Length" },
-        { name: "Smoothening Treatment - Medium Length" },
-        { name: "Smoothening Treatment - Long Length" },
-        { name: "Straightening / Rebonding - Bob" },
-        { name: "Straightening / Rebonding - Shoulder Length" },
-        { name: "Straightening / Rebonding - Medium Length" },
-        { name: "Straightening / Rebonding - Long Length" },
-        { name: "Botoliss Treatment - Bob" },
-        { name: "Botoliss Treatment - Shoulder Length" },
-        { name: "Botoliss Treatment - Medium Length" },
-        { name: "Botoliss Treatment - Long Length" },
-        { name: "Hair Treatments - Keratin" },
-        { name: "Hair Treatments - Botox" },
-        { name: "Hair Treatments - Nanoplastia" },
-        { name: "Hair Treatments - Dandruff Treatment" },
-        { name: "Hair Treatments - Hairfall Treatment" },
-      ],
-    },
-    {
-      id: "facial",
-      title: "Facial",
-      image: bride1,
-      items: [
-        { name: "Fruit Facial" },
-        { name: "Tan Clear Facial" },
-        { name: "Ragaa Facial" },
-        { name: "Aroma Facial" },
-        { name: "Oil Control Facial" },
-        { name: "O3+ Whitening Facial" },
-        { name: "Hydra (Basic) Facial" },
-        { name: "Hydra Gold Facial" },
-        { name: "Hydra Korean Glow Facial" },
-        { name: "Bridal Facial" },
-      ],
-    },
-    {
-      id: "groom",
-      title: "Groom",
-      image: maleHairstyle,
-      items: [
-        { name: "Groom Makeup & Hair Setting" },
-        { name: "Groom Facial" },
-        { name: "Threading & Massage" },
-        { name: "Face Peel Off Waxing" },
-        { name: "Back Massage" },
-        { name: "Hand Massage" },
-        { name: "Foot Massage" },
-      ],
-    },
-    {
-      id: "men-hair",
-      title: "Men Hair",
-      image: salonInterior2,
-      items: [
-        { name: "Men's Haircut" },
-        { name: "Senior Citizen Haircut" },
-        { name: "Kids Haircut" },
-        { name: "Hair Styling" },
-        { name: "Advance Haircut" },
-        { name: "Hair Wash" },
-        { name: "Dandruff Wash" },
-        { name: "Deep Conditioning" },
-        { name: "Organic Shampoo Wash" },
-        { name: "Clean Shave" },
-        { name: "Beard Shape" },
-        { name: "Men's Hair Color - Global Color (Ammonia)" },
-        { name: "Men's Hair Color - Global Color (Ammonia Free)" },
-        { name: "Men's Hair Color - Beard Color" },
-        { name: "Men's Hair Color - Highlight (Per Strip)" },
-        { name: "Men's Hair Color - Crazy Color Highlight (Per Strip)" },
-        { name: "Hair Treatments - Dandruff Treatment" },
-        { name: "Hair Treatments - Hairfall Treatment" },
-        {
-          name: "Hair Treatments - Oil Head Massage (Normal Oil - Coconut Oil)",
-        },
-        { name: "Hair Treatments - Oil Head Massage (Argan Oil)" },
-        { name: "Hair Treatments - Oil Head Massage (Moroccan Oil)" },
-        { name: "Hair Treatments - Keratin" },
-        { name: "Hair Treatments - Botox" },
-        { name: "Hair Treatments - Nanoplastia" },
-        { name: "Hair Treatments - Smoothening Treatment" },
-        { name: "Hair Treatments - Straightening / Rebonding" },
-        { name: "Hair Treatments - Botoliss Treatment" },
-        { name: "Styling & Spa - Temporary Styling & Blowdry" },
-        { name: "Styling & Spa - Ironing" },
-        { name: "Styling & Spa - Tongs / Relaxing Spa" },
-        { name: "Styling & Spa - Detox Spa" },
-        { name: "Styling & Spa - Protein Spa" },
-        {
-          name: "Styling & Spa - Bond Repair Treatment (Olaplex & Fibre Plex)",
-        },
-        { name: "Styling & Spa - Moroccan Oil Spa" },
-        { name: "Styling & Spa - Shea Butter Spa" },
-        { name: "D-Tan Face" },
-        { name: "D-Tan Neck" },
-        { name: "Fruit Facial" },
-        { name: "Tan Clear Facial" },
-        { name: "Ragaa Facial" },
-        { name: "Aroma Facial" },
-        { name: "Oil Control Facial" },
-        { name: "O3+ Whitening Facial" },
-        { name: "Hydra (Basic) Facial" },
-        { name: "Hydra Gold Facial" },
-        { name: "Hydra Korean Glow Facial" },
-        { name: "Clean-up - Fruit" },
-        { name: "Clean-up - Charcoal" },
-        { name: "Clean-up - Ragaa" },
-        { name: "Clean-up - Brightening" },
-        { name: "Clean-up - Korean Glow" },
-        { name: "Clean-up - O3+" },
-        { name: "Clean-up - Hydra" },
-        { name: "Clean-up - Aroma" },
-      ],
-    },
-  ];
+  // Data Definitions
+  const nailArtHand: ServiceCategory = {
+    title: "Nail Art",
+    subtitle: "HAND",
+    headers: ["Service", "1 Hand", "Both Hand"],
+    items: [
+      { name: "Gel Polish", price1: "250/-", price2: "500/-" },
+      { name: "Gel Overlay With Gel", price1: "600/-", price2: "1200/-" },
+      { name: "Gel Overlay With Acrylic", price1: "500/-", price2: "1000/-" }, // Corrected "Overless" to "Overlay"
+      { name: "Acrylic Extension", price1: "700/-", price2: "1400/-" },
+      { name: "Gel Extension", price1: "800/-", price2: "1600/-" },
+      { name: "Temporary Extension", price1: "500/-", price2: "1000/-" },
+    ],
+  };
 
-  const selectedCategoryData = categories.find(
-    (c) => c.id === selectedCategory
-  );
+  const nailArtFeet: ServiceCategory = {
+    title: "",
+    subtitle: "FEET",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Gel Polish Feet", price1: "500/-" },
+      { name: "Temporary Extension", price1: "1000/-" },
+      { name: "Acrylic Extension", price1: "1200/-" },
+      { name: "Gel Extension", price1: "1500/-" },
+      { name: "Gel Polish Remove", price1: "200/-" },
+      { name: "Extension Remove", price1: "350/-" },
+    ],
+  };
+
+  const maniPedi: ServiceCategory = {
+    title: "Manicure & Pedicure",
+    headers: ["MANI-PEDI", "MANI", "PEDI"],
+    items: [
+      { name: "Basic Dry", price1: "500/-", price2: "500/-" },
+      { name: "Classic", price1: "600/-", price2: "650/-" },
+      { name: "Aroma", price1: "800/-", price2: "850/-" },
+      { name: "Chocolate", price1: "1000/-", price2: "1200/-" },
+      { name: "Ultra Bright", price1: "1200/-", price2: "1500/-" },
+      { name: "Tan Clear", price1: "1500/-", price2: "1700/-" },
+      { name: "Signature", price1: "1500/-", price2: "2000/-" },
+      { name: "Ragaa", price1: "1700/-", price2: "2000/-" },
+      { name: "RAEVIA Special", price1: "2000/-", price2: "2500/-" },
+      { name: "Heel Peel Treatment", price1: "---", price2: "2000/-" }, // Using --- for empty
+    ],
+  };
+
+  const waxing: ServiceCategory = {
+    title: "Waxing",
+    headers: ["Waxing", "RICA", "FLAVOURED"],
+    items: [
+      { name: "Full Arms", price1: "500/-", price2: "300/-" },
+      { name: "Half Legs", price1: "500/-", price2: "350/-" },
+      { name: "Full Legs", price1: "800/-", price2: "500/-" },
+      { name: "Half Back", price1: "350/-", price2: "200/-" },
+      { name: "Half Front", price1: "350/-", price2: "200/-" },
+      { name: "Full Back", price1: "600/-", price2: "500/-" },
+      { name: "Full Front", price1: "600/-", price2: "500/-" },
+      { name: "Stomach", price1: "500/-", price2: "300/-" },
+      { name: "Bikini", price1: "2500/-", price2: "---" },
+      { name: "Full Body", price1: "2500/-", price2: "2200/-" },
+      { name: "Underarms", price1: "150/-", price2: "100/-" },
+    ],
+  };
+
+  const threading: ServiceCategory = {
+    title: "Threading",
+    headers: ["Threading", "Price"],
+    items: [
+      { name: "Eyebrows", price1: "50/-" },
+      { name: "Upper / Lower Lip", price1: "30/-" },
+      { name: "Forehead", price1: "30/-" },
+      { name: "Chin", price1: "30/-" },
+      { name: "Side Locks", price1: "60/-" },
+      { name: "Jaw Line", price1: "30/-" },
+      { name: "Neck", price1: "60/-" },
+      { name: "Face", price1: "300/-" },
+    ],
+  };
+
+  const hairSmoothening: ServiceCategory = {
+    title: "Smoothening Treatment",
+    headers: ["Length", "Price"],
+    items: [
+      { name: "Bob", price1: "3000/-" },
+      { name: "Shoulder Length", price1: "4000/-" },
+      { name: "Medium Length", price1: "5000/-" },
+      { name: "Long Length", price1: "7000/- +" },
+    ],
+  };
+
+  const hairStraightening: ServiceCategory = {
+    title: "Straightening / Rebonding",
+    headers: ["Length", "Price"],
+    items: [
+      { name: "Bob", price1: "3000/-" },
+      { name: "Shoulder Length", price1: "4000/-" },
+      { name: "Medium Length", price1: "5500/-" },
+      { name: "Long Length", price1: "7000/- +" },
+    ],
+  };
+
+  const hairBotoliss: ServiceCategory = {
+    title: "Botoliss Treatment",
+    subtitle: "(organic + formaldehyde free Treatment)",
+    headers: ["Length", "Price"],
+    items: [
+      { name: "Bob", price1: "3500/-" },
+      { name: "Shoulder Length", price1: "5000/-" },
+      { name: "Medium Length", price1: "7000/-" },
+      { name: "Long Length", price1: "9000/- +" },
+    ],
+  };
+
+  const mensHairCut: ServiceCategory = {
+    title: "Mens Hair Cut",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Haircut", price1: "200/-" },
+      { name: "Senior Citizen", price1: "150/-" },
+      { name: "Kids Haircut", price1: "150/-" },
+      { name: "Hair Styling", price1: "100/-" },
+      { name: "Advance Haircut", price1: "300/-" },
+    ],
+  };
+
+  const mensHairWash: ServiceCategory = {
+    title: "Mens Hairwash",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Hair wash", price1: "100/-" },
+      { name: "Dandruff wash", price1: "150/-" },
+      { name: "Deep Conditioning", price1: "200/-" },
+      { name: "Organic Shampoo wash", price1: "200/-" },
+    ],
+  };
+
+  const beard: ServiceCategory = {
+    title: "Beard",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Clean Shave", price1: "100/-" },
+      { name: "Beard Shape", price1: "150/-" },
+    ],
+  };
+
+  const mensHairColor: ServiceCategory = {
+    title: "Mens Hair Color",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Global Color (amonia)", price1: "700/-" },
+      { name: "Global Color (amonia Free)", price1: "800/-" },
+      { name: "Beard Color", price1: "300/-" },
+      { name: "Highlight (per strip)", price1: "150/-" },
+      { name: "Crazy Color Highlight (per strip)", price1: "250/-" },
+    ],
+  };
+
+  const facial: ServiceCategory = {
+    title: "Facial",
+    headers: ["Service", "Price"],
+    items: [
+      { name: "Fruit", price1: "800/-" },
+      { name: "Tan Clear", price1: "1000/-" },
+      { name: "Ragaa", price1: "1200/-" },
+      { name: "Aroma", price1: "1500/-" },
+      { name: "Oil Control", price1: "1500/-" },
+      { name: "O3+ whitening", price1: "2500/-" },
+      { name: "Hydra (basic)", price1: "2500/-" },
+      { name: "Hydra Gold", price1: "3000/-" },
+      { name: "Hydra Korean Glow", price1: "4000/-" },
+      { name: "Bridal Facial", price1: "5000/-" },
+    ],
+  };
 
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -299,31 +287,66 @@ const Services = () => {
 
       {/* Services Content */}
       <section className="container mx-auto px-4 md:px-8 py-20">
-        <div className="max-w-7xl mx-auto">
-          {/* Category Cards Grid */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 text-center">
-              Select a Service Category
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {categories.map((category) => (
-                <CategoryCard
-                  key={category.id}
-                  category={category}
-                  isSelected={selectedCategory === category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                />
-              ))}
-            </div>
-          </div>
+        <Tabs defaultValue={activeTab} className="w-full max-w-5xl mx-auto">
+          <TabsList className="w-full flex justify-center bg-transparent mb-16 gap-8">
+            <TabsTrigger
+              value="her"
+              className="text-2xl md:text-3xl font-serif data-[state=active]:text-accent data-[state=active]:border-b-2 data-[state=active]:border-accent rounded-none pb-2 transition-all opacity-60 data-[state=active]:opacity-100"
+            >
+              For Her
+            </TabsTrigger>
+            <TabsTrigger
+              value="him"
+              className="text-2xl md:text-3xl font-serif data-[state=active]:text-accent data-[state=active]:border-b-2 data-[state=active]:border-accent rounded-none pb-2 transition-all opacity-60 data-[state=active]:opacity-100"
+            >
+              For Him
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Selected Category Services */}
-          <div className="mt-20 border-t border-border/30 pt-12">
-            {selectedCategoryData && (
-              <ServiceList category={selectedCategoryData} />
-            )}
-          </div>
-        </div>
+          <TabsContent value="her" className="animate-fade-up">
+            {/* Render all tables */}
+            <ServiceTable category={nailArtHand} />
+            <div className="-mt-8">
+              <ServiceTable category={nailArtFeet} />
+            </div>
+
+            <div className="my-16 h-px w-full bg-border/30"></div>
+
+            <ServiceTable category={maniPedi} />
+
+            <div className="my-16 h-px w-full bg-border/30"></div>
+
+            <ServiceTable category={waxing} />
+
+            <div className="my-16 h-px w-full bg-border/30"></div>
+
+            <ServiceTable category={threading} />
+
+            <div className="my-16 h-px w-full bg-border/30"></div>
+
+            <h3 className="text-3xl md:text-4xl font-serif text-foreground mb-12 text-center">
+              Hair Treatments
+            </h3>
+            <ServiceTable category={hairSmoothening} />
+            <ServiceTable category={hairStraightening} />
+            <ServiceTable category={hairBotoliss} />
+
+            <div className="my-16 h-px w-full bg-border/30"></div>
+            <ServiceTable category={facial} />
+          </TabsContent>
+
+          <TabsContent value="him" className="animate-fade-up">
+            <ServiceTable category={mensHairCut} />
+            <div className="my-16 h-px w-full bg-border/30"></div>
+            <ServiceTable category={mensHairWash} />
+            <div className="my-16 h-px w-full bg-border/30"></div>
+            <ServiceTable category={beard} />
+            <div className="my-16 h-px w-full bg-border/30"></div>
+            <ServiceTable category={mensHairColor} />
+            <div className="my-16 h-px w-full bg-border/30"></div>
+            <ServiceTable category={facial} />
+          </TabsContent>
+        </Tabs>
       </section>
 
       <Footer />
