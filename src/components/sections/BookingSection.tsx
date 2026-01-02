@@ -18,7 +18,7 @@ const BookingSection = () => {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-t from-accent/30 to-transparent" />
       </div>
 
-      <div 
+      <div
         ref={ref}
         className={cn(
           "relative z-10 max-w-4xl mx-auto px-6 text-center transition-all duration-1000 ease-luxury",
@@ -45,13 +45,17 @@ const BookingSection = () => {
 
         {/* Description */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-          Step into a world of refined beauty and personalized care. 
-          Our team awaits to craft your perfect experience.
+          Step into a world of refined beauty and personalized care. Our team
+          awaits to craft your perfect experience.
         </p>
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-          <Button variant="luxury-gold" size="luxury-lg" className="min-w-[200px]">
+          <Button
+            variant="luxury-gold"
+            size="luxury-lg"
+            className="min-w-[200px]"
+          >
             Book Appointment
           </Button>
           <Button variant="luxury" size="luxury">
@@ -65,11 +69,11 @@ const BookingSection = () => {
             Hours of Operation
           </p>
           <p className="text-sm text-foreground/70">
-            Tuesday – Saturday: 10am – 8pm
+            Tuesday – Sunday: 10am – 10pm
           </p>
-          <p className="text-sm text-foreground/70">
-            Sunday: 11am – 6pm
-          </p>
+          {/* <p className="text-sm text-foreground/70">
+            Sunday: 10am – 10pm
+          </p> */}
         </div>
       </div>
     </section>
