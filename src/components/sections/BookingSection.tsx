@@ -5,8 +5,16 @@ import { Button } from "@/components/ui/button";
 const BookingSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
-  const handleCallClick = () => {
-    window.location.href = "tel:+919594152241";
+  const handleScrollToFooter = () => {
+    const footerContact = document.getElementById("footer-contact");
+    if (footerContact) {
+      footerContact.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Add highlight effect
+      footerContact.classList.add("highlight-animation");
+      setTimeout(() => {
+        footerContact.classList.remove("highlight-animation");
+      }, 2000);
+    }
   };
 
   return (
@@ -61,10 +69,11 @@ const BookingSection = () => {
             variant="luxury-gold"
             size="luxury-lg"
             className="min-w-[200px]"
+            onClick={handleScrollToFooter}
           >
             Book Appointment
           </Button>
-          <Button variant="luxury" size="luxury">
+          <Button variant="luxury" size="luxury" onClick={handleScrollToFooter}>
             Contact Us
           </Button>
         </div>
@@ -75,7 +84,7 @@ const BookingSection = () => {
             Hours of Operation
           </p>
           <p className="text-sm text-foreground/70">
-            Tuesday – Sunday: 10am – 10pm Tuesday – Sunday: 10am – 10pm
+            Monday – Sunday: 10am – 10pm
           </p>
           {/* <p className="text-sm text-foreground/70">
             Sunday: 10am – 10pm

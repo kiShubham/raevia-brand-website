@@ -2,13 +2,25 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-salon.jpg";
 
 const HeroSection = () => {
+  const handleScrollToFooter = () => {
+    const footerContact = document.getElementById("footer-contact");
+    if (footerContact) {
+      footerContact.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Add highlight effect
+      footerContact.classList.add("highlight-animation");
+      setTimeout(() => {
+        footerContact.classList.remove("highlight-animation");
+      }, 2000);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0">
-        <img 
-          src={heroImage} 
-          alt="Raevia luxury salon interior with marble surfaces and gold accents" 
+        <img
+          src={heroImage}
+          alt="Raevia luxury salon interior with marble surfaces and gold accents"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-background/70" />
@@ -17,9 +29,18 @@ const HeroSection = () => {
 
       {/* Subtle animated accent lines */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-px h-32 bg-gradient-to-b from-transparent via-accent/20 to-transparent animate-fade-up" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/3 right-0 w-px h-24 bg-gradient-to-b from-transparent via-accent/20 to-transparent animate-fade-up" style={{ animationDelay: '1.2s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-24 h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent animate-fade-up" style={{ animationDelay: '1.4s' }} />
+        <div
+          className="absolute top-1/4 left-0 w-px h-32 bg-gradient-to-b from-transparent via-accent/20 to-transparent animate-fade-up"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute top-1/3 right-0 w-px h-24 bg-gradient-to-b from-transparent via-accent/20 to-transparent animate-fade-up"
+          style={{ animationDelay: "1.2s" }}
+        />
+        <div
+          className="absolute bottom-1/4 left-1/4 w-24 h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent animate-fade-up"
+          style={{ animationDelay: "1.4s" }}
+        />
       </div>
 
       {/* Main content */}
@@ -50,18 +71,24 @@ const HeroSection = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 animate-fade-up-delay-4">
-          <Button variant="luxury-gold" size="luxury-lg">
+          <Button
+            variant="luxury-gold"
+            size="luxury-lg"
+            onClick={handleScrollToFooter}
+          >
             Book Appointment
-          </Button>
-          <Button variant="luxury-subtle" size="luxury">
-            Explore Services
           </Button>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up" style={{ animationDelay: '1.5s' }}>
-        <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Scroll</span>
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up"
+        style={{ animationDelay: "1.5s" }}
+      >
+        <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
+          Scroll
+        </span>
         <div className="w-px h-8 bg-gradient-to-b from-accent/50 to-transparent" />
       </div>
     </section>

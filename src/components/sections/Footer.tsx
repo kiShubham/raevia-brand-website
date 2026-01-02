@@ -41,7 +41,10 @@ const Footer = () => {
           </div>
 
           {/* Contact column */}
-          <div className="space-y-6">
+          <div
+            id="footer-contact"
+            className="space-y-6 transition-all duration-500 ease-in-out rounded-lg p-4"
+          >
             <h4 className="text-xs tracking-[0.35em] uppercase text-accent">
               Contact
             </h4>
