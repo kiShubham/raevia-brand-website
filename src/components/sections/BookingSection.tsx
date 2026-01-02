@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 const BookingSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
+  const handleCallClick = () => {
+    window.location.href = "tel:+919594152241";
+  };
+
   return (
     <section className="relative py-32 md:py-48 overflow-hidden">
       {/* Background with radial gradient */}
@@ -18,6 +22,7 @@ const BookingSection = () => {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-t from-accent/30 to-transparent" />
       </div>
 
+      <div
       <div
         ref={ref}
         className={cn(
@@ -47,6 +52,8 @@ const BookingSection = () => {
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
           Step into a world of refined beauty and personalized care. Our team
           awaits to craft your perfect experience.
+          Step into a world of refined beauty and personalized care. Our team
+          awaits to craft your perfect experience.
         </p>
 
         {/* CTA */}
@@ -70,7 +77,11 @@ const BookingSection = () => {
           </p>
           <p className="text-sm text-foreground/70">
             Tuesday – Sunday: 10am – 10pm
+            Tuesday – Sunday: 10am – 10pm
           </p>
+          {/* <p className="text-sm text-foreground/70">
+            Sunday: 10am – 10pm
+          </p> */}
           {/* <p className="text-sm text-foreground/70">
             Sunday: 10am – 10pm
           </p> */}
