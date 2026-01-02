@@ -34,40 +34,17 @@ const ServiceTable = ({ category }: { category: ServiceCategory }) => {
       )}
 
       <div className="bg-card/30 backdrop-blur-md rounded-lg overflow-hidden border border-border/50 shadow-xl">
-        {/* Header */}
-        <div className="grid grid-cols-12 gap-4 p-4 md:p-6 bg-secondary/40 text-accent font-serif tracking-widest uppercase text-sm md:text-base border-b border-border/50">
-          <div className="col-span-6 md:col-span-6">{category.headers[0]}</div>
-          <div className="col-span-3 md:col-span-3 text-right">
-            {category.headers[1]}
-          </div>
-          {category.headers[2] && (
-            <div className="col-span-3 md:col-span-3 text-right">
-              {category.headers[2]}
-            </div>
-          )}
-        </div>
-
         {/* Rows */}
         <div className="divide-y divide-border/30">
           {category.items.map((item, idx) => (
             <div
               key={idx}
               className={cn(
-                "grid grid-cols-12 gap-4 p-4 md:p-6 hover:bg-white/5 transition-colors duration-300 items-center",
+                "p-4 md:p-6 hover:bg-white/5 transition-colors duration-300",
                 idx % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
               )}
             >
-              <div className="col-span-6 md:col-span-6 font-medium text-foreground/90">
-                {item.name}
-              </div>
-              <div className="col-span-3 md:col-span-3 text-right font-light text-foreground/80 tracking-wide">
-                {item.price1 || "---"}
-              </div>
-              {category.headers[2] && (
-                <div className="col-span-3 md:col-span-3 text-right font-light text-foreground/80 tracking-wide">
-                  {item.price2 || "---"}
-                </div>
-              )}
+              <div className="font-medium text-foreground/90">{item.name}</div>
             </div>
           ))}
         </div>
