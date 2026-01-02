@@ -3,25 +3,34 @@ import { cn } from "@/lib/utils";
 
 const testimonials = [
   {
-    quote: "An oasis of calm in the city. The attention to detail is remarkable—every visit feels like a personal retreat.",
-    author: "A.M.",
-    location: "London",
+    quote:
+      "Nanoplastia at RAEVIA STUDIO 💇‍♂️ Got my Nanoplastia treatment done and the results are amazing! My hair feels smooth, frizz-free, and easy to style.The team at RAEVIA STUDIO was professional, friendly, and made the whole process super comfortable.Highly recommend it for guys who want healthy, sleek, and manageable hair! ✨",
+    author: "Aditya Dhone AD",
+    // location: "London",
   },
   {
-    quote: "Finally, a salon that understands modern elegance. The team's expertise is matched only by their genuine care.",
-    author: "J.K.",
-    location: "New York",
+    quote:
+      "Loved my hair color transformation! My hair feels healthy and soft. Highly recommend!",
+    author: "Supriya Desai",
+    // location: "New York",
   },
   {
-    quote: "Raevia has redefined what I expect from a grooming experience. Subtle luxury at its finest.",
-    author: "S.R.",
-    location: "Dubai",
+    quote:
+      "This is a spot on place for anything you would like to do. Personally, this has been my go to place for my hair, face and nails for so many years now.As a girl, I am too reluctant to trust someone in regards to my hair. But this has been the best trustworthy place so far. Loving it :) Would like to give special credits to Mr Ajay who has always done my hair without any disappointment.",
+    author: "Prernaa Bisst",
+    // location: "Dubai",
   },
 ];
 
-const TestimonialCard = ({ testimonial, index }: { testimonial: typeof testimonials[0]; index: number }) => {
+const TestimonialCard = ({
+  testimonial,
+  index,
+}: {
+  testimonial: (typeof testimonials)[0];
+  index: number;
+}) => {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });
-  
+
   return (
     <div
       ref={ref}
@@ -74,7 +83,9 @@ const TestimonialsSection = () => {
           ref={headerRef}
           className={cn(
             "text-center mb-20 transition-all duration-1000 ease-luxury",
-            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            headerVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
           )}
         >
           <span className="text-xs tracking-[0.35em] uppercase text-accent mb-4 block">
@@ -88,7 +99,11 @@ const TestimonialsSection = () => {
         {/* Testimonials grid */}
         <div className="grid md:grid-cols-3 gap-8 md:gap-12">
           {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} testimonial={testimonial} index={index} />
+            <TestimonialCard
+              key={index}
+              testimonial={testimonial}
+              index={index}
+            />
           ))}
         </div>
       </div>
