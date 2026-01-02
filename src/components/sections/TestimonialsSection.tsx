@@ -59,7 +59,7 @@ const TestimonialCard = ({
                 {testimonial.author}
               </cite>
               <span className="block text-xs text-muted-foreground mt-1">
-                {testimonial.location}
+                {/* {testimonial.location} */}
               </span>
             </div>
           </footer>
