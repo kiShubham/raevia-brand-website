@@ -23,7 +23,6 @@ const BookingSection = () => {
       </div>
 
       <div
-      <div
         ref={ref}
         className={cn(
           "relative z-10 max-w-4xl mx-auto px-6 text-center transition-all duration-1000 ease-luxury",
@@ -51,9 +50,9 @@ const BookingSection = () => {
         {/* Description */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
           Step into a world of refined beauty and personalized care. Our team
-          awaits to craft your perfect experience.
-          Step into a world of refined beauty and personalized care. Our team
-          awaits to craft your perfect experience.
+          awaits to craft your perfect experience. Step into a world of refined
+          beauty and personalized care. Our team awaits to craft your perfect
+          experience.
         </p>
 
         {/* CTA */}
@@ -76,8 +75,7 @@ const BookingSection = () => {
             Hours of Operation
           </p>
           <p className="text-sm text-foreground/70">
-            Tuesday – Sunday: 10am – 10pm
-            Tuesday – Sunday: 10am – 10pm
+            Tuesday – Sunday: 10am – 10pm Tuesday – Sunday: 10am – 10pm
           </p>
           {/* <p className="text-sm text-foreground/70">
             Sunday: 10am – 10pm
